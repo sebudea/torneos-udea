@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MenuView extends StatelessWidget {
   const MenuView({super.key});
@@ -34,13 +35,17 @@ class MenuView extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                context.push("/reglamento");
+              },
               label: const Text("Reglamento"),
               icon: const Icon(Icons.gavel),
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                context.push("/resoluciones");
+              },
               label: const Text("Resoluciones"),
               icon: const Icon(Icons.description),
             ),
