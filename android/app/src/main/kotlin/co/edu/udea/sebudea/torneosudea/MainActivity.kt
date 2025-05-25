@@ -1,4 +1,4 @@
-package com.example.torneos_udea
+package co.edu.udea.sebudea.torneosudea
 
 import io.flutter.embedding.android.FlutterActivity
 

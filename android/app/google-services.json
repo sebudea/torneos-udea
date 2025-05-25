@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661835864087",
+    "project_id": "torneos-udea",
+    "storage_bucket": "torneos-udea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661835864087:android:24a9fc8298412aa3242452",
+        "android_client_info": {
+          "package_name": "co.edu.udea.sebudea.torneosudea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661835864087-bi49c5f2pc51fe25i7vns4e47kdcor20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9dZtzA8g82RkYwqZIDsRE9mfUpmdjDoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661835864087-bi49c5f2pc51fe25i7vns4e47kdcor20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
