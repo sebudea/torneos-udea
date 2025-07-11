@@ -1,68 +1,203 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:torneos_udea/ui/widgets/udea_logo.dart';
 
 class MenuView extends ConsumerWidget {
   const MenuView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FilledButton.icon(
-            onPressed: () {
-              // TODO: Implementar inscripciones
-              _showNotImplementedDialog(context);
-            },
-            label: const Text("Inscripciones"),
-            icon: const Icon(Icons.how_to_reg),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+              Theme.of(context).colorScheme.surface,
+            ],
           ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: () {
-              // TODO: Implementar equipos
-              _showNotImplementedDialog(context);
-            },
-            label: const Text("Equipos"),
-            icon: const Icon(Icons.groups_2),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // Header con logo
+                _buildHeader(context),
+                const SizedBox(height: 32),
+                // Grid de opciones
+                Expanded(
+                  child: _buildMenuGrid(context),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: () {
-              // TODO: Implementar cuadros
-              _showNotImplementedDialog(context);
-            },
-            label: const Text("Cuadros"),
-            icon: const Icon(Icons.leaderboard),
-          ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: () {
-              // TODO: Implementar programación
-              _showNotImplementedDialog(context);
-            },
-            label: const Text("Programacion"),
-            icon: const Icon(Icons.event),
-          ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: () {
-              context.push("/reglamento");
-            },
-            label: const Text("Reglamento"),
-            icon: const Icon(Icons.gavel),
-          ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: () {
-              context.push("/resoluciones");
-            },
-            label: const Text("Resoluciones"),
-            icon: const Icon(Icons.description),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const UdeALogo(size: 48, showText: false),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Torneos UdeA',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                              ),
+                    ),
+                    Text(
+                      'Olimpiadas Deportivas',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer
+                                .withOpacity(0.8),
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuGrid(BuildContext context) {
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 16,
+      mainAxisSpacing: 16,
+      childAspectRatio: 1.1,
+      children: [
+        _buildMenuCard(
+          context,
+          title: 'Inscripciones',
+          icon: Icons.how_to_reg,
+          color: Colors.blue,
+          onTap: () => _showNotImplementedDialog(context),
+        ),
+        _buildMenuCard(
+          context,
+          title: 'Equipos',
+          icon: Icons.groups_2,
+          color: Colors.green,
+          onTap: () => _showNotImplementedDialog(context),
+        ),
+        _buildMenuCard(
+          context,
+          title: 'Cuadros',
+          icon: Icons.leaderboard,
+          color: Colors.orange,
+          onTap: () => _showNotImplementedDialog(context),
+        ),
+        _buildMenuCard(
+          context,
+          title: 'Programación',
+          icon: Icons.event,
+          color: Colors.purple,
+          onTap: () => _showNotImplementedDialog(context),
+        ),
+        _buildMenuCard(
+          context,
+          title: 'Reglamento',
+          icon: Icons.gavel,
+          color: Colors.red,
+          onTap: () => context.push("/reglamento"),
+        ),
+        _buildMenuCard(
+          context,
+          title: 'Resoluciones',
+          icon: Icons.description,
+          color: Colors.teal,
+          onTap: () => context.push("/resoluciones"),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMenuCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 4,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                color.withOpacity(0.1),
+                color.withOpacity(0.05),
+              ],
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  size: 32,
+                  color: color,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

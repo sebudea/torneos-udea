@@ -32,9 +32,37 @@ GoRouter router() {
         builder: (context, state, child) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: const Text("Torneos UdeA"),
-              centerTitle: true,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              elevation: 0,
+              title: Flexible(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        Icons.sports_soccer,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        "Torneos UdeA",
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              centerTitle: false,
               actions: [
                 Consumer(
                   builder: (context, ref, child) {
@@ -49,6 +77,7 @@ GoRouter router() {
                                 ? CircleAvatar(
                                     backgroundImage:
                                         NetworkImage(user.photoURL!),
+                                    radius: 16,
                                   )
                                 : const Icon(Icons.account_circle),
                             itemBuilder: (context) => [
@@ -89,47 +118,58 @@ GoRouter router() {
                           );
                         } else {
                           // No autenticado: muestra icono de login
-                          return IconButton(
-                            icon: const Icon(Icons.login),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text("Iniciar sesión"),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Text(
-                                          "Inicia sesión con tu cuenta de Google para continuar."),
-                                      const SizedBox(height: 16),
-                                      FilledButton.icon(
-                                        icon: const Icon(Icons.login),
-                                        label:
-                                            const Text("Continuar con Google"),
-                                        onPressed: () async {
-                                          await ref
-                                              .read(
-                                                  authNotifierProvider.notifier)
-                                              .signInWithGoogle();
-                                          Navigator.of(context).pop();
-                                        },
+                          return Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            child: FilledButton.icon(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text("Iniciar sesión"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text(
+                                            "Inicia sesión con tu cuenta de Google para continuar."),
+                                        const SizedBox(height: 16),
+                                        FilledButton.icon(
+                                          icon: const Icon(Icons.login),
+                                          label: const Text(
+                                              "Continuar con Google"),
+                                          onPressed: () async {
+                                            await ref
+                                                .read(authNotifierProvider
+                                                    .notifier)
+                                                .signInWithGoogle();
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      OutlinedButton(
+                                        child: const Text("Cancelar"),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
                                       ),
                                     ],
                                   ),
-                                  actions: [
-                                    OutlinedButton(
-                                      child: const Text("Cancelar"),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                                );
+                              },
+                              icon: const Icon(Icons.login, size: 18),
+                              label: const Text("Iniciar sesión"),
+                            ),
                           );
                         }
                       },
-                      loading: () => const LoadingWidget(),
+                      loading: () => const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ),
                       error: (error, stackTrace) => IconButton(
                         icon: const Icon(Icons.error),
                         onPressed: () {
