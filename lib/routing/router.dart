@@ -69,18 +69,26 @@ GoRouter router() {
                     final authAsync = ref.watch(authNotifierProvider);
 
                     return authAsync.when(
-                      data: (user) {
-                        if (user != null) {
+                      data: (usuario) {
+                        if (usuario != null) {
+                          // Obtener el usuario de Firebase para el photoURL
+                          final firebaseUser =
+                              FirebaseAuth.instance.currentUser;
+
                           // Usuario autenticado: muestra avatar y menú de logout
                           return PopupMenuButton(
-                            icon: user.photoURL != null
+                            icon: firebaseUser?.photoURL != null
                                 ? CircleAvatar(
                                     backgroundImage:
-                                        NetworkImage(user.photoURL!),
+                                        NetworkImage(firebaseUser!.photoURL!),
                                     radius: 16,
                                   )
                                 : const Icon(Icons.account_circle),
                             itemBuilder: (context) => [
+                              PopupMenuItem(
+                                child: Text('${usuario.nombre}'),
+                                enabled: false,
+                              ),
                               PopupMenuItem(
                                 child: const Text('Cerrar sesión'),
                                 onTap: () {
