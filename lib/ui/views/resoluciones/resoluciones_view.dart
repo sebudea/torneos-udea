@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:torneos_udea/constants/app_constants.dart';
 
-class ResolucionesView extends StatelessWidget {
+class ResolucionesView extends ConsumerWidget {
   const ResolucionesView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

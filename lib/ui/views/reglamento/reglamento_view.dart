@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/app_constants.dart';
 
-class ReglamentoView extends StatelessWidget {
+class ReglamentoView extends ConsumerWidget {
   const ReglamentoView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 0, left: 16, right: 16, top: 16),
