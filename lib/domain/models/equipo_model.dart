@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:torneos_udea/domain/models/enums.dart';
 
 part 'equipo_model.freezed.dart';
 part 'equipo_model.g.dart';
@@ -12,15 +13,6 @@ DateTime _timestampToDateTime(dynamic timestamp) {
     return timestamp;
   }
   throw Exception('Invalid timestamp format');
-}
-
-enum Deporte {
-  @JsonValue('futbol')
-  futbol,
-  @JsonValue('baloncesto')
-  baloncesto,
-  @JsonValue('voleibol')
-  voleibol,
 }
 
 @freezed

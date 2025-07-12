@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:torneos_udea/domain/models/enums.dart';
 import 'package:torneos_udea/domain/models/torneo_model.dart';
 import 'package:torneos_udea/ui/providers/torneos_provider.dart';
 

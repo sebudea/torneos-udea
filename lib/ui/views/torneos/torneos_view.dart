@@ -4,11 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:torneos_udea/domain/models/torneo_model.dart';
 import 'package:torneos_udea/domain/models/usuario_model.dart';
+import 'package:torneos_udea/domain/models/enums.dart';
 import 'package:torneos_udea/ui/providers/auth_provider.dart';
 import 'package:torneos_udea/ui/providers/torneos_provider.dart';
 import 'package:torneos_udea/ui/widgets/empty_state_widget.dart';
 import 'package:torneos_udea/ui/views/torneos/crear_torneo_dialog.dart';
 import 'package:torneos_udea/ui/views/torneos/editar_torneo_dialog.dart';
+import 'package:torneos_udea/ui/views/torneos/gestion_equipos_torneo_dialog.dart';
 import 'package:torneos_udea/ui/widgets/error_display_widget.dart';
 
 class TorneosView extends ConsumerStatefulWidget {
@@ -505,24 +507,37 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
   }
 
   Widget _buildAccionesAdmin(BuildContext context, TorneoModel torneo) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () => _editarTorneo(context, torneo),
-            icon: const Icon(Icons.edit, size: 16),
-            label: const Text('Editar'),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () => _eliminarTorneo(context, torneo),
-            icon: const Icon(Icons.delete, size: 16),
-            label: const Text('Eliminar'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.red,
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => _editarTorneo(context, torneo),
+                icon: const Icon(Icons.edit, size: 16),
+                label: const Text('Editar'),
+              ),
             ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => _eliminarTorneo(context, torneo),
+                icon: const Icon(Icons.delete, size: 16),
+                label: const Text('Eliminar'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: () => _gestionarEquipos(context, torneo),
+            icon: const Icon(Icons.groups, size: 16),
+            label: const Text('Gestionar Equipos'),
           ),
         ),
       ],
@@ -631,6 +646,13 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
           ),
         ],
       ),
+    );
+  }
+
+  void _gestionarEquipos(BuildContext context, TorneoModel torneo) {
+    showDialog(
+      context: context,
+      builder: (context) => GestionEquiposTorneoDialog(torneo: torneo),
     );
   }
 }

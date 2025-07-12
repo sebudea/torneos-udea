@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:torneos_udea/domain/models/enums.dart';
 import 'package:torneos_udea/domain/models/equipo_model.dart';
 import 'package:torneos_udea/domain/models/usuario_model.dart';
 import 'package:torneos_udea/ui/providers/auth_provider.dart';

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:torneos_udea/domain/models/enums.dart';
 import 'package:torneos_udea/domain/models/torneo_model.dart';
 import 'package:torneos_udea/services/torneo_service.dart';
 
