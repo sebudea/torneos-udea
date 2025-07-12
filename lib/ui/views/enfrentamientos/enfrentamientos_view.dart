@@ -20,12 +20,124 @@ class EnfrentamientosView extends ConsumerStatefulWidget {
 }
 
 class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
-  // Datos simulados de enfrentamientos por fase
+  late Map<String, dynamic> datosGrupos;
+  late Map<String, List<Map<String, dynamic>>> enfrentamientosFaseGrupos;
   late Map<String, List<Map<String, dynamic>>> enfrentamientos;
+  int grupoSeleccionado = 0;
 
   @override
   void initState() {
     super.initState();
+
+    // Datos simulados de grupos
+    datosGrupos = {
+      'grupos': ['Grupo A', 'Grupo B', 'Grupo C', 'Grupo D'],
+      'tablas': {
+        'Grupo A': [
+          {
+            'equipo': 'Equipo A',
+            'pj': 3,
+            'pg': 2,
+            'pe': 1,
+            'pp': 0,
+            'gf': 7,
+            'gc': 2,
+            'pts': 7,
+          },
+          {
+            'equipo': 'Equipo B',
+            'pj': 3,
+            'pg': 2,
+            'pe': 0,
+            'pp': 1,
+            'gf': 5,
+            'gc': 3,
+            'pts': 6,
+          },
+          {
+            'equipo': 'Equipo C',
+            'pj': 3,
+            'pg': 1,
+            'pe': 1,
+            'pp': 1,
+            'gf': 4,
+            'gc': 4,
+            'pts': 4,
+          },
+          {
+            'equipo': 'Equipo D',
+            'pj': 3,
+            'pg': 0,
+            'pe': 0,
+            'pp': 3,
+            'gf': 1,
+            'gc': 8,
+            'pts': 0,
+          },
+        ],
+        'Grupo B': [
+          // Similar structure for other groups...
+        ],
+      },
+    };
+
+    enfrentamientosFaseGrupos = {
+      'Grupo A': [
+        {
+          'id': '1',
+          'equipoLocal': 'Equipo A',
+          'equipoVisitante': 'Equipo B',
+          'fecha': '2024-05-15 14:00',
+          'estado': 'Finalizado',
+          'resultado': '2 - 1',
+        },
+        {
+          'id': '2',
+          'equipoLocal': 'Equipo C',
+          'equipoVisitante': 'Equipo D',
+          'fecha': '2024-05-15 16:00',
+          'estado': 'Finalizado',
+          'resultado': '3 - 0',
+        },
+        {
+          'id': '3',
+          'equipoLocal': 'Equipo A',
+          'equipoVisitante': 'Equipo C',
+          'fecha': '2024-05-16 14:00',
+          'estado': 'Finalizado',
+          'resultado': '2 - 2',
+        },
+        {
+          'id': '4',
+          'equipoLocal': 'Equipo B',
+          'equipoVisitante': 'Equipo D',
+          'fecha': '2024-05-16 16:00',
+          'estado': 'Finalizado',
+          'resultado': '3 - 1',
+        },
+        {
+          'id': '5',
+          'equipoLocal': 'Equipo A',
+          'equipoVisitante': 'Equipo D',
+          'fecha': '2024-05-17 14:00',
+          'estado': 'Finalizado',
+          'resultado': '3 - 0',
+        },
+        {
+          'id': '6',
+          'equipoLocal': 'Equipo B',
+          'equipoVisitante': 'Equipo C',
+          'fecha': '2024-05-17 16:00',
+          'estado': 'Finalizado',
+          'resultado': '1 - 0',
+        },
+      ],
+      'Grupo B': [
+        // Similar structure for other groups...
+      ],
+    };
+
+    // Datos de eliminación directa (estructura original)
     enfrentamientos = {
       'Octavos de Final': [
         {
@@ -151,12 +263,12 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
       Map<String, dynamic> enfrentamientoActualizado) {
     setState(() {
       // Encontrar y actualizar el enfrentamiento
-      for (var fase in enfrentamientos.keys) {
-        final index = enfrentamientos[fase]!.indexWhere(
+      for (var fase in enfrentamientosFaseGrupos.keys) {
+        final index = enfrentamientosFaseGrupos[fase]!.indexWhere(
           (e) => e['id'] == enfrentamientoActualizado['id'],
         );
         if (index != -1) {
-          enfrentamientos[fase]![index] = enfrentamientoActualizado;
+          enfrentamientosFaseGrupos[fase]![index] = enfrentamientoActualizado;
           // Si el partido está finalizado, actualizar el siguiente enfrentamiento
           if (enfrentamientoActualizado['estado'] == 'Finalizado') {
             _actualizarSiguienteEnfrentamiento(
@@ -213,6 +325,325 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
     final authAsync = ref.watch(authNotifierProvider);
     final esAdmin = authAsync.value?.rol == RolUsuario.admin;
 
+    return widget.torneo.metodoEliminacion == MetodoEliminacion.grupos
+        ? _buildGruposView(context, esAdmin)
+        : widget.torneo.metodoEliminacion == MetodoEliminacion.todosContraTodos
+            ? _buildTodosContraTodosView(context, esAdmin)
+            : _buildEliminacionDirectaView(context, esAdmin);
+  }
+
+  Widget _buildGruposView(BuildContext context, bool esAdmin) {
+    return DefaultTabController(
+      length: datosGrupos['grupos'].length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Enfrentamientos - ${widget.torneo.nombre}'),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                Theme.of(context).colorScheme.surface,
+              ],
+            ),
+          ),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          _getDeporteIcon(widget.torneo.deporte),
+                          size: 24,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Fase de Grupos',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              Text(
+                                'Sistema: ${_getMetodoNombre(widget.torneo.metodoEliminacion)}',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Tabs de grupos
+                TabBar(
+                  isScrollable: true,
+                  tabs: datosGrupos['grupos']
+                      .map<Widget>((grupo) => Tab(text: grupo))
+                      .toList(),
+                  onTap: (index) {
+                    setState(() {
+                      grupoSeleccionado = index;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Tabla de posiciones
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Tabla de Posiciones',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                const SizedBox(height: 12),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                    columns: const [
+                                      DataColumn(label: Text('Equipo')),
+                                      DataColumn(label: Text('PJ')),
+                                      DataColumn(label: Text('PG')),
+                                      DataColumn(label: Text('PE')),
+                                      DataColumn(label: Text('PP')),
+                                      DataColumn(label: Text('GF')),
+                                      DataColumn(label: Text('GC')),
+                                      DataColumn(label: Text('Pts')),
+                                    ],
+                                    rows: (datosGrupos['tablas'][
+                                            datosGrupos['grupos']
+                                                [grupoSeleccionado]] as List)
+                                        .map<DataRow>((equipo) => DataRow(
+                                              cells: [
+                                                DataCell(
+                                                    Text(equipo['equipo'])),
+                                                DataCell(
+                                                    Text('${equipo['pj']}')),
+                                                DataCell(
+                                                    Text('${equipo['pg']}')),
+                                                DataCell(
+                                                    Text('${equipo['pe']}')),
+                                                DataCell(
+                                                    Text('${equipo['pp']}')),
+                                                DataCell(
+                                                    Text('${equipo['gf']}')),
+                                                DataCell(
+                                                    Text('${equipo['gc']}')),
+                                                DataCell(
+                                                    Text('${equipo['pts']}')),
+                                              ],
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        // Lista de partidos del grupo
+                        Text(
+                          'Partidos',
+                          style:
+                              Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        const SizedBox(height: 12),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: enfrentamientosFaseGrupos[
+                                    datosGrupos['grupos'][grupoSeleccionado]]
+                                ?.length,
+                            itemBuilder: (context, index) {
+                              final partido = enfrentamientosFaseGrupos[
+                                  datosGrupos['grupos']
+                                      [grupoSeleccionado]]![index];
+                              return Card(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                child: InkWell(
+                                  onTap: esAdmin &&
+                                          (partido['estado'] == 'Programado' ||
+                                              partido['estado'] ==
+                                                  'En Progreso')
+                                      ? () => _mostrarDialogoEditarResultado(
+                                            context,
+                                            partido,
+                                          )
+                                      : null,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                partido['equipoLocal'] ??
+                                                    'Por definir',
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      partido['equipoLocal'] ==
+                                                              null
+                                                          ? Colors.grey
+                                                          : null,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16),
+                                              child: Column(
+                                                children: [
+                                                  const Text(
+                                                    'VS',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  if (partido
+                                                      .containsKey('resultado'))
+                                                    Text(
+                                                      partido['resultado']!,
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                partido['equipoVisitante'] ??
+                                                    'Por definir',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      partido['equipoVisitante'] ==
+                                                              null
+                                                          ? Colors.grey
+                                                          : null,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              partido['fecha']!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: _getColorEstado(
+                                                    partido['estado']!),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Text(
+                                                partido['estado']!,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        if (esAdmin &&
+                                            (partido['estado'] ==
+                                                    'Programado' ||
+                                                partido['estado'] ==
+                                                    'En Progreso'))
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8),
+                                            child: Text(
+                                              'Toca para editar resultado',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEliminacionDirectaView(BuildContext context, bool esAdmin) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Enfrentamientos - ${widget.torneo.nombre}'),
@@ -254,7 +685,7 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Enfrentamientos',
+                              'Eliminación Directa',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
@@ -309,17 +740,16 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          ...partidosFase.map((enfrentamiento) => Card(
+                          ...partidosFase.map((partido) => Card(
                                 margin: const EdgeInsets.only(bottom: 12),
                                 child: InkWell(
                                   onTap: esAdmin &&
-                                          (enfrentamiento['estado'] ==
-                                                  'Programado' ||
-                                              enfrentamiento['estado'] ==
+                                          (partido['estado'] == 'Programado' ||
+                                              partido['estado'] ==
                                                   'En Progreso')
                                       ? () => _mostrarDialogoEditarResultado(
                                             context,
-                                            enfrentamiento,
+                                            partido,
                                           )
                                       : null,
                                   borderRadius: BorderRadius.circular(12),
@@ -331,16 +761,16 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                enfrentamiento['equipoLocal'] ??
+                                                partido['equipoLocal'] ??
                                                     'Por definir',
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: enfrentamiento[
-                                                              'equipoLocal'] ==
-                                                          null
-                                                      ? Colors.grey
-                                                      : null,
+                                                  color:
+                                                      partido['equipoLocal'] ==
+                                                              null
+                                                          ? Colors.grey
+                                                          : null,
                                                 ),
                                               ),
                                             ),
@@ -358,11 +788,10 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                                                       color: Colors.grey,
                                                     ),
                                                   ),
-                                                  if (enfrentamiento
+                                                  if (partido
                                                       .containsKey('resultado'))
                                                     Text(
-                                                      enfrentamiento[
-                                                          'resultado']!,
+                                                      partido['resultado']!,
                                                       style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -374,16 +803,15 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                enfrentamiento[
-                                                        'equipoVisitante'] ??
+                                                partido['equipoVisitante'] ??
                                                     'Por definir',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: enfrentamiento[
-                                                              'equipoVisitante'] ==
-                                                          null
-                                                      ? Colors.grey
-                                                      : null,
+                                                  color:
+                                                      partido['equipoVisitante'] ==
+                                                              null
+                                                          ? Colors.grey
+                                                          : null,
                                                 ),
                                               ),
                                             ),
@@ -395,7 +823,7 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              enfrentamiento['fecha']!,
+                                              partido['fecha']!,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall,
@@ -408,12 +836,12 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                                               ),
                                               decoration: BoxDecoration(
                                                 color: _getColorEstado(
-                                                    enfrentamiento['estado']!),
+                                                    partido['estado']!),
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
                                               child: Text(
-                                                enfrentamiento['estado']!,
+                                                partido['estado']!,
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Theme.of(context)
@@ -425,9 +853,9 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
                                           ],
                                         ),
                                         if (esAdmin &&
-                                            (enfrentamiento['estado'] ==
+                                            (partido['estado'] ==
                                                     'Programado' ||
-                                                enfrentamiento['estado'] ==
+                                                partido['estado'] ==
                                                     'En Progreso'))
                                           Padding(
                                             padding:
@@ -458,6 +886,18 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTodosContraTodosView(BuildContext context, bool esAdmin) {
+    // TODO: Implementar vista de todos contra todos
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Enfrentamientos - ${widget.torneo.nombre}'),
+      ),
+      body: const Center(
+        child: Text('Vista de Todos contra Todos en desarrollo'),
       ),
     );
   }
