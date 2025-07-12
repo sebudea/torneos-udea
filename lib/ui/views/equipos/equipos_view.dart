@@ -194,11 +194,59 @@ class _EquiposViewState extends ConsumerState<EquiposView> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Text(
-      'Equipos',
-      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.groups_2,
+              color: Theme.of(context).colorScheme.onPrimary,
+              size: 28,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Equipos',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                ),
+                Text(
+                  'Gestiona los equipos deportivos',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onPrimaryContainer
+                            .withOpacity(0.8),
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -280,29 +328,189 @@ class _EquiposViewState extends ConsumerState<EquiposView> {
       itemBuilder: (context, index) {
         final equipo = equipos[index];
         return Card(
-          child: ListTile(
-            title: Text(equipo.nombre),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Facultad: ${equipo.facultad}'),
-                Text('Deporte: ${equipo.deporte.name}'),
-                Text('Capitán: ${equipo.capitan}'),
-                Text('Integrantes: ${equipo.integrantes.length}'),
-              ],
-            ),
-            trailing: esAdmin
-                ? IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () =>
-                        _mostrarDialogEditarEquipo(context, equipo),
-                  )
-                : null,
+          margin: const EdgeInsets.only(bottom: 12),
+          elevation: 4,
+          child: InkWell(
             onTap: () => _mostrarDetallesEquipo(context, equipo),
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    _getColorDeporte(equipo.deporte).withOpacity(0.1),
+                    _getColorDeporte(equipo.deporte).withOpacity(0.05),
+                  ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color:
+                              _getColorDeporte(equipo.deporte).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          _getIconoDeporte(equipo.deporte),
+                          color: _getColorDeporte(equipo.deporte),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              equipo.nombre,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            Text(
+                              equipo.facultad,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withOpacity(0.7),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _buildEquipoChip(context, equipo),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  _buildInfoEquipo(context, equipo),
+                  if (esAdmin) ...[
+                    const SizedBox(height: 12),
+                    _buildAccionesAdmin(context, equipo),
+                  ],
+                ],
+              ),
+            ),
           ),
         );
       },
     );
+  }
+
+  Widget _buildEquipoChip(BuildContext context, EquipoModel equipo) {
+    final color = _getColorDeporte(equipo.deporte);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        equipo.deporte.name,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoEquipo(BuildContext context, EquipoModel equipo) {
+    return Column(
+      children: [
+        _buildInfoRow('Capitán', equipo.capitan),
+        _buildInfoRow('Integrantes',
+            '${equipo.integrantes.length}/${equipo.numeroIntegrantes}'),
+      ],
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 80,
+            child: Text(
+              '$label:',
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccionesAdmin(BuildContext context, EquipoModel equipo) {
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: () => _mostrarDialogEditarEquipo(context, equipo),
+            icon: const Icon(Icons.edit, size: 16),
+            label: const Text('Editar'),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: () => _eliminarEquipo(context, equipo),
+            icon: const Icon(Icons.delete, size: 16),
+            label: const Text('Eliminar'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.red,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Color _getColorDeporte(Deporte deporte) {
+    switch (deporte) {
+      case Deporte.futbol:
+        return Colors.green;
+      case Deporte.baloncesto:
+        return Colors.orange;
+      case Deporte.voleibol:
+        return Colors.blue;
+    }
+  }
+
+  IconData _getIconoDeporte(Deporte deporte) {
+    switch (deporte) {
+      case Deporte.futbol:
+        return Icons.groups;
+      case Deporte.baloncesto:
+        return Icons.groups;
+      case Deporte.voleibol:
+        return Icons.groups;
+    }
   }
 
   void _mostrarDialogCrearEquipo(BuildContext context) {
@@ -909,17 +1117,56 @@ class _EquiposViewState extends ConsumerState<EquiposView> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(equipo.nombre),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: _getColorDeporte(equipo.deporte).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                _getIconoDeporte(equipo.deporte),
+                color: _getColorDeporte(equipo.deporte),
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    equipo.nombre,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  Text(
+                    equipo.facultad,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.7),
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Facultad: ${equipo.facultad}'),
+              _buildDetallesInfoRow('Deporte', equipo.deporte.name),
               const SizedBox(height: 8),
-              Text('Deporte: ${equipo.deporte.name}'),
+              _buildDetallesInfoRow('Facultad', equipo.facultad),
               const SizedBox(height: 8),
-              Text('Capitán: ${equipo.capitan}'),
+              _buildDetallesInfoRow('Capitán', equipo.capitan),
               const SizedBox(height: 16),
               Text(
                 'Integrantes',
@@ -980,6 +1227,74 @@ class _EquiposViewState extends ConsumerState<EquiposView> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetallesInfoRow(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 80,
+          child: Text(
+            '$label:',
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(value),
+        ),
+      ],
+    );
+  }
+
+  void _eliminarEquipo(BuildContext context, EquipoModel equipo) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Eliminar Equipo'),
+        content: Text(
+            '¿Estás seguro de que deseas eliminar el equipo "${equipo.nombre}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () async {
+              try {
+                await ref
+                    .read(equiposNotifierProvider.notifier)
+                    .eliminarEquipo(equipo.id);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Equipo eliminado exitosamente'),
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error al eliminar el equipo: $e'),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                    ),
+                  );
+                }
+              }
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            child: const Text('Eliminar'),
           ),
         ],
       ),
