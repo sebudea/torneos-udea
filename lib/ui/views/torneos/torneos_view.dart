@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:torneos_udea/domain/models/torneo_model.dart';
 import 'package:torneos_udea/domain/models/usuario_model.dart';
@@ -7,6 +8,7 @@ import 'package:torneos_udea/ui/providers/auth_provider.dart';
 import 'package:torneos_udea/ui/providers/torneos_provider.dart';
 import 'package:torneos_udea/ui/widgets/empty_state_widget.dart';
 import 'package:torneos_udea/ui/views/torneos/crear_torneo_dialog.dart';
+import 'package:torneos_udea/ui/views/torneos/editar_torneo_dialog.dart';
 import 'package:torneos_udea/ui/widgets/error_display_widget.dart';
 
 class TorneosView extends ConsumerStatefulWidget {
@@ -22,9 +24,7 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
 
   @override
   Widget build(BuildContext context) {
-    final torneosAsync = ref.watch(torneosNotifierProvider);
-    final usuario = ref.watch(authNotifierProvider).value;
-    final esAdmin = usuario?.rol == RolUsuario.admin;
+    final authAsync = ref.watch(authNotifierProvider);
 
     return Scaffold(
       body: Container(
@@ -39,54 +39,136 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                _buildHeader(context),
-                const SizedBox(height: 16),
-                _buildFiltros(context),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: torneosAsync.when(
-                    data: (torneos) {
-                      final torneosFiltrados = ref
-                          .read(torneosNotifierProvider.notifier)
-                          .filtrarTorneos(
-                            deporte: _deporteSeleccionado,
-                            estado: _estadoSeleccionado,
-                          );
-
-                      if (torneosFiltrados.isEmpty) {
-                        return _buildEmptyState(context, torneos.isEmpty);
-                      }
-
-                      return _buildListaTorneos(
-                          context, torneosFiltrados, esAdmin);
-                    },
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    error: (error, stackTrace) => Center(
-                      child: ErrorDisplayWidget(
-                        error: error,
-                        stackTrace: stackTrace,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          child: authAsync.when(
+            data: (usuario) {
+              if (usuario == null) {
+                return _buildLoginPrompt(context);
+              }
+              return _buildTorneosContent(context, usuario);
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, stackTrace) => Center(
+              child: ErrorDisplayWidget(
+                error: error,
+                stackTrace: stackTrace,
+              ),
             ),
           ),
         ),
       ),
-      floatingActionButton: esAdmin
-          ? FloatingActionButton.extended(
+      floatingActionButton: authAsync.when(
+        data: (usuario) {
+          if (usuario?.rol == RolUsuario.admin) {
+            return FloatingActionButton.extended(
               onPressed: () => _mostrarDialogCrearTorneo(context),
               icon: const Icon(Icons.add),
               label: const Text('Nuevo Torneo'),
-            )
-          : null,
+            );
+          }
+          return null;
+        },
+        loading: () => null,
+        error: (error, stackTrace) => null,
+      ),
+    );
+  }
+
+  Widget _buildLoginPrompt(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                Icons.sports_soccer,
+                size: 64,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              '¡Bienvenido a Torneos UdeA!',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Para ver y participar en los torneos deportivos, necesitas iniciar sesión con tu cuenta institucional.',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color
+                        ?.withOpacity(0.7),
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () {
+                ref.read(authNotifierProvider.notifier).signInWithGoogle();
+              },
+              icon: const Icon(Icons.login),
+              label: const Text('Iniciar Sesión con Google'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTorneosContent(BuildContext context, UsuarioModel usuario) {
+    final torneosAsync = ref.watch(torneosNotifierProvider);
+    final esAdmin = usuario.rol == RolUsuario.admin;
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          _buildHeader(context),
+          const SizedBox(height: 16),
+          _buildFiltros(context),
+          const SizedBox(height: 16),
+          Expanded(
+            child: torneosAsync.when(
+              data: (torneos) {
+                final torneosFiltrados =
+                    ref.read(torneosNotifierProvider.notifier).filtrarTorneos(
+                          deporte: _deporteSeleccionado,
+                          estado: _estadoSeleccionado,
+                        );
+
+                if (torneosFiltrados.isEmpty) {
+                  return _buildEmptyState(context, torneos.isEmpty);
+                }
+
+                return _buildListaTorneos(context, torneosFiltrados, esAdmin);
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stackTrace) => Center(
+                child: ErrorDisplayWidget(
+                  error: error,
+                  stackTrace: stackTrace,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -518,9 +600,9 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
   }
 
   void _editarTorneo(BuildContext context, TorneoModel torneo) {
-    // TODO: Implementar edición de torneo
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Función de editar torneo en desarrollo')),
+    showDialog(
+      context: context,
+      builder: (context) => EditarTorneoDialog(torneo: torneo),
     );
   }
 
