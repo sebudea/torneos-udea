@@ -422,6 +422,21 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
             if (esAdmin) ...[
               const SizedBox(height: 12),
               _buildAccionesAdmin(context, torneo),
+            ] else if (torneo.estado == EstadoTorneo.enProgreso) ...[
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () =>
+                      context.push('/enfrentamientos', extra: torneo),
+                  icon: const Icon(Icons.sports_soccer, size: 16),
+                  label: const Text('Ver Enfrentamientos'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                ),
+              ),
             ],
           ],
         ),
@@ -540,6 +555,21 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
             label: const Text('Gestionar Equipos'),
           ),
         ),
+        if (torneo.estado == EstadoTorneo.enProgreso) ...[
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () => context.push('/enfrentamientos', extra: torneo),
+              icon: const Icon(Icons.sports_soccer, size: 16),
+              label: const Text('Ver Enfrentamientos'),
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }

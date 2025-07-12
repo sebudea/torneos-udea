@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:torneos_udea/domain/models/torneo_model.dart';
 import 'package:torneos_udea/ui/providers/auth_provider.dart';
 import 'package:torneos_udea/ui/views/auth/auth_view.dart';
+import 'package:torneos_udea/ui/views/enfrentamientos/enfrentamientos_view.dart';
 import 'package:torneos_udea/ui/views/equipos/equipos_view.dart';
 import 'package:torneos_udea/ui/views/menu/menu_view.dart';
 import 'package:torneos_udea/ui/views/reglamento/reglamento_view.dart';
@@ -61,6 +63,14 @@ GoRouter router() {
           GoRoute(
             path: "/resoluciones",
             builder: (context, state) => const ResolucionesView(),
+          ),
+          // Nueva ruta para enfrentamientos
+          GoRoute(
+            path: "/enfrentamientos",
+            builder: (context, state) {
+              final torneo = state.extra as TorneoModel;
+              return EnfrentamientosView(torneo: torneo);
+            },
           ),
         ],
         builder: (context, state, child) {
