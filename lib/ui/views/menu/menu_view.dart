@@ -160,20 +160,6 @@ class MenuView extends ConsumerWidget {
         ),
         _buildMenuCard(
           context,
-          title: 'Cuadros',
-          icon: Icons.leaderboard,
-          color: Colors.orange,
-          onTap: () => _showNotImplementedDialog(context),
-        ),
-        _buildMenuCard(
-          context,
-          title: 'Programación',
-          icon: Icons.event,
-          color: Colors.purple,
-          onTap: () => _showNotImplementedDialog(context),
-        ),
-        _buildMenuCard(
-          context,
           title: 'Reglamento',
           icon: Icons.gavel,
           color: Colors.red,
