@@ -21,6 +21,20 @@ class TorneosView extends ConsumerStatefulWidget {
 class _TorneosViewState extends ConsumerState<TorneosView> {
   Deporte? _deporteSeleccionado;
   EstadoTorneo? _estadoSeleccionado;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Iniciar un timer corto para dar tiempo a la autenticación
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,93 +53,71 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
           ),
         ),
         child: SafeArea(
-          child: authAsync.when(
-            data: (usuario) {
-              if (usuario == null) {
-                return _buildLoginPrompt(context);
-              }
-              return _buildTorneosContent(context, usuario);
-            },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (error, stackTrace) => Center(
-              child: ErrorDisplayWidget(
-                error: error,
-                stackTrace: stackTrace,
-              ),
-            ),
-          ),
+          child: _isLoading
+              ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 16),
+                      Text('Cargando...'),
+                    ],
+                  ),
+                )
+              : authAsync.when(
+                  data: (usuario) {
+                    if (usuario == null) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        context.go('/auth?from=/torneos');
+                      });
+                      return const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 16),
+                            Text('Verificando autenticación...'),
+                          ],
+                        ),
+                      );
+                    }
+                    return _buildTorneosContent(context, usuario);
+                  },
+                  loading: () => const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 16),
+                        Text('Verificando autenticación...'),
+                      ],
+                    ),
+                  ),
+                  error: (error, stackTrace) => Center(
+                    child: ErrorDisplayWidget(
+                      error: error,
+                      stackTrace: stackTrace,
+                    ),
+                  ),
+                ),
         ),
       ),
-      floatingActionButton: authAsync.when(
-        data: (usuario) {
-          if (usuario?.rol == RolUsuario.admin) {
-            return FloatingActionButton.extended(
-              onPressed: () => _mostrarDialogCrearTorneo(context),
-              icon: const Icon(Icons.add),
-              label: const Text('Nuevo Torneo'),
-            );
-          }
-          return null;
-        },
-        loading: () => null,
-        error: (error, stackTrace) => null,
-      ),
-    );
-  }
-
-  Widget _buildLoginPrompt(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        constraints: const BoxConstraints(maxWidth: 400),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Icon(
-                Icons.sports_soccer,
-                size: 64,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              '¡Bienvenido a Torneos UdeA!',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Para ver y participar en los torneos deportivos, necesitas iniciar sesión con tu cuenta institucional.',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.color
-                        ?.withOpacity(0.7),
-                  ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            FilledButton.icon(
-              onPressed: () {
-                ref.read(authNotifierProvider.notifier).signInWithGoogle();
+      floatingActionButton: !_isLoading
+          ? authAsync.when(
+              data: (usuario) {
+                if (usuario?.rol == RolUsuario.admin) {
+                  return FloatingActionButton.extended(
+                    onPressed: () => _mostrarDialogCrearTorneo(context),
+                    icon: const Icon(Icons.add),
+                    label: const Text('Nuevo Torneo'),
+                  );
+                }
+                return null;
               },
-              icon: const Icon(Icons.login),
-              label: const Text('Iniciar Sesión con Google'),
-            ),
-          ],
-        ),
-      ),
+              loading: () => null,
+              error: (error, stackTrace) => null,
+            )
+          : null,
     );
   }
 
@@ -157,7 +149,14 @@ class _TorneosViewState extends ConsumerState<TorneosView> {
                 return _buildListaTorneos(context, torneosFiltrados, esAdmin);
               },
               loading: () => const Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Cargando torneos...'),
+                  ],
+                ),
               ),
               error: (error, stackTrace) => Center(
                 child: ErrorDisplayWidget(

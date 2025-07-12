@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:torneos_udea/ui/providers/auth_provider.dart';
+import 'package:torneos_udea/ui/views/auth/auth_view.dart';
 import 'package:torneos_udea/ui/views/menu/menu_view.dart';
 import 'package:torneos_udea/ui/views/reglamento/reglamento_view.dart';
 import 'package:torneos_udea/ui/views/resoluciones/resoluciones_view.dart';
@@ -13,6 +14,22 @@ import 'package:torneos_udea/ui/widgets/loading_widget.dart';
 GoRouter router() {
   return GoRouter(
     initialLocation: "/",
+    redirect: (context, state) {
+      // Lista de rutas que requieren autenticación
+      final protectedRoutes = ['/torneos', '/equipos'];
+
+      // Si la ruta actual requiere autenticación
+      if (protectedRoutes.contains(state.matchedLocation)) {
+        final isAuthenticated = FirebaseAuth.instance.currentUser != null;
+
+        // Si no está autenticado, redirigir a auth con la ruta original
+        if (!isAuthenticated) {
+          return '/auth?from=${state.matchedLocation}';
+        }
+      }
+
+      return null; // No redirigir
+    },
     routes: [
       ShellRoute(
         routes: [
@@ -20,6 +37,13 @@ GoRouter router() {
           GoRoute(
             path: "/",
             builder: (context, state) => const MenuView(),
+          ),
+          // Ruta de autenticación
+          GoRoute(
+            path: "/auth",
+            builder: (context, state) => AuthView(
+              from: state.uri.queryParameters['from'] ?? '/',
+            ),
           ),
           GoRoute(
             path: "/torneos",
@@ -121,6 +145,8 @@ GoRouter router() {
                                                   .read(authNotifierProvider
                                                       .notifier)
                                                   .signOut();
+                                              // Redirigir al menú después de cerrar sesión
+                                              context.go('/');
                                             },
                                           ),
                                         ],
