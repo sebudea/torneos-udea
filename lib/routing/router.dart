@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:torneos_udea/ui/providers/auth_provider.dart';
 import 'package:torneos_udea/ui/views/auth/auth_view.dart';
+import 'package:torneos_udea/ui/views/equipos/equipos_view.dart';
 import 'package:torneos_udea/ui/views/menu/menu_view.dart';
 import 'package:torneos_udea/ui/views/reglamento/reglamento_view.dart';
 import 'package:torneos_udea/ui/views/resoluciones/resoluciones_view.dart';
@@ -48,6 +49,10 @@ GoRouter router() {
           GoRoute(
             path: "/torneos",
             builder: (context, state) => const TorneosView(),
+          ),
+          GoRoute(
+            path: "/equipos",
+            builder: (context, state) => const EquiposView(),
           ),
           GoRoute(
             path: "/reglamento",
@@ -123,36 +128,31 @@ GoRouter router() {
                               PopupMenuItem(
                                 child: const Text('Cerrar sesión'),
                                 onTap: () {
-                                  // Mostrar un AlertDialog de confirmación antes de cerrar sesión
-                                  Future.delayed(Duration.zero, () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text('¿Cerrar sesión?'),
-                                        content: const Text(
-                                            '¿Estás seguro de que deseas cerrar sesión?'),
-                                        actions: [
-                                          FilledButton(
-                                            child: const Text('Cancelar'),
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(),
-                                          ),
-                                          OutlinedButton(
-                                            child: const Text('Cerrar sesión'),
-                                            onPressed: () async {
-                                              Navigator.of(context).pop();
-                                              await ref
-                                                  .read(authNotifierProvider
-                                                      .notifier)
-                                                  .signOut();
-                                              // Redirigir al menú después de cerrar sesión
-                                              context.go('/');
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  });
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Cerrar sesión'),
+                                      content: const Text(
+                                          '¿Estás seguro de que quieres cerrar sesión?'),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('Cancelar'),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                        ),
+                                        FilledButton(
+                                          child: const Text('Cerrar sesión'),
+                                          onPressed: () {
+                                            ref
+                                                .read(authNotifierProvider
+                                                    .notifier)
+                                                .signOut();
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
                                 },
                               ),
                             ],

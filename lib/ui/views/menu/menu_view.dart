@@ -156,7 +156,7 @@ class MenuView extends ConsumerWidget {
           title: 'Equipos',
           icon: Icons.groups_2,
           color: Colors.green,
-          onTap: () => _showNotImplementedDialog(context),
+          onTap: () => context.push("/equipos"),
         ),
         _buildMenuCard(
           context,
