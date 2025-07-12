@@ -23,17 +23,24 @@ mixin _$TorneoModel {
   String get id => throw _privateConstructorUsedError;
   String get nombre => throw _privateConstructorUsedError;
   Deporte get deporte => throw _privateConstructorUsedError;
+  @JsonKey(name: 'metodo_eliminacion')
   MetodoEliminacion get metodoEliminacion => throw _privateConstructorUsedError;
+  @JsonKey(name: 'cantidad_equipos')
   int get cantidadEquipos => throw _privateConstructorUsedError;
   EstadoTorneo get estado => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fecha_inicio_registro')
   DateTime get fechaInicioRegistro => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fecha_fin_registro')
   DateTime get fechaFinRegistro => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fecha_inicio_torneo')
   DateTime get fechaInicioTorneo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fecha_fin_torneo')
   DateTime get fechaFinTorneo => throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: true, includeToJson: false)
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: true, includeToJson: false)
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_by')
   String get createdBy => throw _privateConstructorUsedError;
 
   /// Serializes this TorneoModel to a JSON map.
@@ -56,16 +63,18 @@ abstract class $TorneoModelCopyWith<$Res> {
       {String id,
       String nombre,
       Deporte deporte,
-      MetodoEliminacion metodoEliminacion,
-      int cantidadEquipos,
+      @JsonKey(name: 'metodo_eliminacion') MetodoEliminacion metodoEliminacion,
+      @JsonKey(name: 'cantidad_equipos') int cantidadEquipos,
       EstadoTorneo estado,
-      DateTime fechaInicioRegistro,
-      DateTime fechaFinRegistro,
-      DateTime fechaInicioTorneo,
-      DateTime fechaFinTorneo,
-      @JsonKey(includeFromJson: true, includeToJson: false) DateTime createdAt,
-      @JsonKey(includeFromJson: true, includeToJson: false) DateTime updatedAt,
-      String createdBy});
+      @JsonKey(name: 'fecha_inicio_registro') DateTime fechaInicioRegistro,
+      @JsonKey(name: 'fecha_fin_registro') DateTime fechaFinRegistro,
+      @JsonKey(name: 'fecha_inicio_torneo') DateTime fechaInicioTorneo,
+      @JsonKey(name: 'fecha_fin_torneo') DateTime fechaFinTorneo,
+      @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+      DateTime? createdAt,
+      @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+      DateTime? updatedAt,
+      @JsonKey(name: 'created_by') String createdBy});
 }
 
 /// @nodoc
@@ -93,8 +102,8 @@ class _$TorneoModelCopyWithImpl<$Res, $Val extends TorneoModel>
     Object? fechaFinRegistro = null,
     Object? fechaInicioTorneo = null,
     Object? fechaFinTorneo = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? createdBy = null,
   }) {
     return _then(_value.copyWith(
@@ -138,14 +147,14 @@ class _$TorneoModelCopyWithImpl<$Res, $Val extends TorneoModel>
           ? _value.fechaFinTorneo
           : fechaFinTorneo // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -166,16 +175,18 @@ abstract class _$$TorneoModelImplCopyWith<$Res>
       {String id,
       String nombre,
       Deporte deporte,
-      MetodoEliminacion metodoEliminacion,
-      int cantidadEquipos,
+      @JsonKey(name: 'metodo_eliminacion') MetodoEliminacion metodoEliminacion,
+      @JsonKey(name: 'cantidad_equipos') int cantidadEquipos,
       EstadoTorneo estado,
-      DateTime fechaInicioRegistro,
-      DateTime fechaFinRegistro,
-      DateTime fechaInicioTorneo,
-      DateTime fechaFinTorneo,
-      @JsonKey(includeFromJson: true, includeToJson: false) DateTime createdAt,
-      @JsonKey(includeFromJson: true, includeToJson: false) DateTime updatedAt,
-      String createdBy});
+      @JsonKey(name: 'fecha_inicio_registro') DateTime fechaInicioRegistro,
+      @JsonKey(name: 'fecha_fin_registro') DateTime fechaFinRegistro,
+      @JsonKey(name: 'fecha_inicio_torneo') DateTime fechaInicioTorneo,
+      @JsonKey(name: 'fecha_fin_torneo') DateTime fechaFinTorneo,
+      @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+      DateTime? createdAt,
+      @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+      DateTime? updatedAt,
+      @JsonKey(name: 'created_by') String createdBy});
 }
 
 /// @nodoc
@@ -201,8 +212,8 @@ class __$$TorneoModelImplCopyWithImpl<$Res>
     Object? fechaFinRegistro = null,
     Object? fechaInicioTorneo = null,
     Object? fechaFinTorneo = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? createdBy = null,
   }) {
     return _then(_$TorneoModelImpl(
@@ -246,14 +257,14 @@ class __$$TorneoModelImplCopyWithImpl<$Res>
           ? _value.fechaFinTorneo
           : fechaFinTorneo // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -269,18 +280,18 @@ class _$TorneoModelImpl implements _TorneoModel {
       {required this.id,
       required this.nombre,
       required this.deporte,
-      required this.metodoEliminacion,
-      required this.cantidadEquipos,
+      @JsonKey(name: 'metodo_eliminacion') required this.metodoEliminacion,
+      @JsonKey(name: 'cantidad_equipos') required this.cantidadEquipos,
       required this.estado,
-      required this.fechaInicioRegistro,
-      required this.fechaFinRegistro,
-      required this.fechaInicioTorneo,
-      required this.fechaFinTorneo,
-      @JsonKey(includeFromJson: true, includeToJson: false)
-      required this.createdAt,
-      @JsonKey(includeFromJson: true, includeToJson: false)
-      required this.updatedAt,
-      required this.createdBy});
+      @JsonKey(name: 'fecha_inicio_registro') required this.fechaInicioRegistro,
+      @JsonKey(name: 'fecha_fin_registro') required this.fechaFinRegistro,
+      @JsonKey(name: 'fecha_inicio_torneo') required this.fechaInicioTorneo,
+      @JsonKey(name: 'fecha_fin_torneo') required this.fechaFinTorneo,
+      @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+      this.createdAt,
+      @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+      this.updatedAt,
+      @JsonKey(name: 'created_by') required this.createdBy});
 
   factory _$TorneoModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TorneoModelImplFromJson(json);
@@ -292,26 +303,33 @@ class _$TorneoModelImpl implements _TorneoModel {
   @override
   final Deporte deporte;
   @override
+  @JsonKey(name: 'metodo_eliminacion')
   final MetodoEliminacion metodoEliminacion;
   @override
+  @JsonKey(name: 'cantidad_equipos')
   final int cantidadEquipos;
   @override
   final EstadoTorneo estado;
   @override
+  @JsonKey(name: 'fecha_inicio_registro')
   final DateTime fechaInicioRegistro;
   @override
+  @JsonKey(name: 'fecha_fin_registro')
   final DateTime fechaFinRegistro;
   @override
+  @JsonKey(name: 'fecha_inicio_torneo')
   final DateTime fechaInicioTorneo;
   @override
+  @JsonKey(name: 'fecha_fin_torneo')
   final DateTime fechaFinTorneo;
   @override
-  @JsonKey(includeFromJson: true, includeToJson: false)
-  final DateTime createdAt;
+  @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+  final DateTime? createdAt;
   @override
-  @JsonKey(includeFromJson: true, includeToJson: false)
-  final DateTime updatedAt;
+  @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+  final DateTime? updatedAt;
   @override
+  @JsonKey(name: 'created_by')
   final String createdBy;
 
   @override
@@ -387,17 +405,22 @@ abstract class _TorneoModel implements TorneoModel {
       {required final String id,
       required final String nombre,
       required final Deporte deporte,
+      @JsonKey(name: 'metodo_eliminacion')
       required final MetodoEliminacion metodoEliminacion,
-      required final int cantidadEquipos,
+      @JsonKey(name: 'cantidad_equipos') required final int cantidadEquipos,
       required final EstadoTorneo estado,
+      @JsonKey(name: 'fecha_inicio_registro')
       required final DateTime fechaInicioRegistro,
+      @JsonKey(name: 'fecha_fin_registro')
       required final DateTime fechaFinRegistro,
+      @JsonKey(name: 'fecha_inicio_torneo')
       required final DateTime fechaInicioTorneo,
-      required final DateTime fechaFinTorneo,
-      @JsonKey(includeFromJson: true, includeToJson: false)
-      required final DateTime createdAt,
-      @JsonKey(includeFromJson: true, includeToJson: false)
-      required final DateTime updatedAt,
+      @JsonKey(name: 'fecha_fin_torneo') required final DateTime fechaFinTorneo,
+      @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+      final DateTime? createdAt,
+      @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+      final DateTime? updatedAt,
+      @JsonKey(name: 'created_by')
       required final String createdBy}) = _$TorneoModelImpl;
 
   factory _TorneoModel.fromJson(Map<String, dynamic> json) =
@@ -410,26 +433,33 @@ abstract class _TorneoModel implements TorneoModel {
   @override
   Deporte get deporte;
   @override
+  @JsonKey(name: 'metodo_eliminacion')
   MetodoEliminacion get metodoEliminacion;
   @override
+  @JsonKey(name: 'cantidad_equipos')
   int get cantidadEquipos;
   @override
   EstadoTorneo get estado;
   @override
+  @JsonKey(name: 'fecha_inicio_registro')
   DateTime get fechaInicioRegistro;
   @override
+  @JsonKey(name: 'fecha_fin_registro')
   DateTime get fechaFinRegistro;
   @override
+  @JsonKey(name: 'fecha_inicio_torneo')
   DateTime get fechaInicioTorneo;
   @override
+  @JsonKey(name: 'fecha_fin_torneo')
   DateTime get fechaFinTorneo;
   @override
-  @JsonKey(includeFromJson: true, includeToJson: false)
-  DateTime get createdAt;
+  @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+  DateTime? get createdAt;
   @override
-  @JsonKey(includeFromJson: true, includeToJson: false)
-  DateTime get updatedAt;
+  @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+  DateTime? get updatedAt;
   @override
+  @JsonKey(name: 'created_by')
   String get createdBy;
 
   /// Create a copy of TorneoModel

@@ -36,18 +36,20 @@ class TorneoModel with _$TorneoModel {
     required String id,
     required String nombre,
     required Deporte deporte,
+    @JsonKey(name: 'metodo_eliminacion')
     required MetodoEliminacion metodoEliminacion,
-    required int cantidadEquipos,
+    @JsonKey(name: 'cantidad_equipos') required int cantidadEquipos,
     required EstadoTorneo estado,
+    @JsonKey(name: 'fecha_inicio_registro')
     required DateTime fechaInicioRegistro,
-    required DateTime fechaFinRegistro,
-    required DateTime fechaInicioTorneo,
-    required DateTime fechaFinTorneo,
-    @JsonKey(includeFromJson: true, includeToJson: false)
-    required DateTime createdAt,
-    @JsonKey(includeFromJson: true, includeToJson: false)
-    required DateTime updatedAt,
-    required String createdBy,
+    @JsonKey(name: 'fecha_fin_registro') required DateTime fechaFinRegistro,
+    @JsonKey(name: 'fecha_inicio_torneo') required DateTime fechaInicioTorneo,
+    @JsonKey(name: 'fecha_fin_torneo') required DateTime fechaFinTorneo,
+    @JsonKey(name: 'created_at', includeFromJson: true, includeToJson: false)
+    DateTime? createdAt,
+    @JsonKey(name: 'updated_at', includeFromJson: true, includeToJson: false)
+    DateTime? updatedAt,
+    @JsonKey(name: 'created_by') required String createdBy,
   }) = _TorneoModel;
 
   factory TorneoModel.fromJson(Map<String, dynamic> json) =>

@@ -20,8 +20,12 @@ _$TorneoModelImpl _$$TorneoModelImplFromJson(Map<String, dynamic> json) =>
       fechaFinRegistro: DateTime.parse(json['fecha_fin_registro'] as String),
       fechaInicioTorneo: DateTime.parse(json['fecha_inicio_torneo'] as String),
       fechaFinTorneo: DateTime.parse(json['fecha_fin_torneo'] as String),
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
       createdBy: json['created_by'] as String,
     );
 

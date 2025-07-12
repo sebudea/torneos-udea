@@ -6,6 +6,7 @@ import 'package:torneos_udea/ui/providers/auth_provider.dart';
 import 'package:torneos_udea/ui/views/menu/menu_view.dart';
 import 'package:torneos_udea/ui/views/reglamento/reglamento_view.dart';
 import 'package:torneos_udea/ui/views/resoluciones/resoluciones_view.dart';
+import 'package:torneos_udea/ui/views/torneos/torneos_view.dart';
 import 'package:torneos_udea/ui/widgets/error_widget.dart';
 import 'package:torneos_udea/ui/widgets/loading_widget.dart';
 
@@ -21,6 +22,10 @@ GoRouter router() {
             builder: (context, state) => const MenuView(),
           ),
           GoRoute(
+            path: "/torneos",
+            builder: (context, state) => const TorneosView(),
+          ),
+          GoRoute(
             path: "/reglamento",
             builder: (context, state) => const ReglamentoView(),
           ),
@@ -34,33 +39,31 @@ GoRouter router() {
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.surface,
               elevation: 0,
-              title: Flexible(
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        Icons.sports_soccer,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        size: 20,
-                      ),
+              title: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        "Torneos UdeA",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    child: Icon(
+                      Icons.sports_soccer,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      size: 20,
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      "Torneos UdeA",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
               centerTitle: false,
               actions: [
@@ -86,7 +89,11 @@ GoRouter router() {
                                 : const Icon(Icons.account_circle),
                             itemBuilder: (context) => [
                               PopupMenuItem(
-                                child: Text('${usuario.nombre}'),
+                                child: Text(
+                                  usuario.rol.name.toLowerCase(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 enabled: false,
                               ),
                               PopupMenuItem(

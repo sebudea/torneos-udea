@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:torneos_udea/domain/models/usuario_model.dart';
+import 'package:torneos_udea/ui/providers/auth_provider.dart';
 import 'package:torneos_udea/ui/widgets/udea_logo.dart';
 
 class MenuView extends ConsumerWidget {
@@ -8,6 +10,8 @@ class MenuView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final usuario = ref.watch(authNotifierProvider).value;
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -28,6 +32,8 @@ class MenuView extends ConsumerWidget {
                 // Header con logo
                 _buildHeader(context),
                 const SizedBox(height: 32),
+                // Botón temporal para cambiar rol (solo para desarrollo)
+                if (usuario != null) _buildRoleSwitcher(context, ref, usuario),
                 // Grid de opciones
                 Expanded(
                   child: _buildMenuGrid(context),
@@ -36,6 +42,44 @@ class MenuView extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildRoleSwitcher(
+      BuildContext context, WidgetRef ref, UsuarioModel usuario) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.orange),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.admin_panel_settings,
+            color: Colors.orange,
+            size: 20,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'Rol actual: ${usuario.rol.name.toUpperCase()}',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const Spacer(),
+          FilledButton(
+            onPressed: () {
+              final newRole = usuario.rol == RolUsuario.admin
+                  ? RolUsuario.user
+                  : RolUsuario.admin;
+              ref.read(authNotifierProvider.notifier).updateUserRole(newRole);
+            },
+            child: Text(
+                'Cambiar a ${usuario.rol == RolUsuario.admin ? 'USER' : 'ADMIN'}'),
+          ),
+        ],
       ),
     );
   }
@@ -102,10 +146,10 @@ class MenuView extends ConsumerWidget {
       children: [
         _buildMenuCard(
           context,
-          title: 'Inscripciones',
-          icon: Icons.how_to_reg,
+          title: 'Torneos',
+          icon: Icons.emoji_events,
           color: Colors.blue,
-          onTap: () => _showNotImplementedDialog(context),
+          onTap: () => context.push("/torneos"),
         ),
         _buildMenuCard(
           context,
