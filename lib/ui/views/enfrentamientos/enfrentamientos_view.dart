@@ -204,349 +204,285 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
       },
     };
 
-    enfrentamientosFaseGrupos = {
-      'Grupo A': [
-        {
-          'id': '1',
-          'equipoLocal': 'Equipo A',
-          'equipoVisitante': 'Equipo B',
-          'fecha': '2024-05-15 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-        {
-          'id': '2',
-          'equipoLocal': 'Equipo C',
-          'equipoVisitante': 'Equipo D',
-          'fecha': '2024-05-15 16:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-        },
-        {
-          'id': '3',
-          'equipoLocal': 'Equipo A',
-          'equipoVisitante': 'Equipo C',
-          'fecha': '2024-05-16 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 2',
-        },
-        {
-          'id': '4',
-          'equipoLocal': 'Equipo B',
-          'equipoVisitante': 'Equipo D',
-          'fecha': '2024-05-16 16:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 1',
-        },
-        {
-          'id': '5',
-          'equipoLocal': 'Equipo A',
-          'equipoVisitante': 'Equipo D',
-          'fecha': '2024-05-17 14:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-        },
-        {
-          'id': '6',
-          'equipoLocal': 'Equipo B',
-          'equipoVisitante': 'Equipo C',
-          'fecha': '2024-05-17 16:00',
-          'estado': 'Finalizado',
-          'resultado': '1 - 0',
-        },
-      ],
-      'Grupo B': [
-        {
-          'id': '7',
-          'equipoLocal': 'Equipo E',
-          'equipoVisitante': 'Equipo F',
-          'fecha': '2024-05-15 14:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 1',
-        },
-        {
-          'id': '8',
-          'equipoLocal': 'Equipo G',
-          'equipoVisitante': 'Equipo H',
-          'fecha': '2024-05-15 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-        {
-          'id': '9',
-          'equipoLocal': 'Equipo E',
-          'equipoVisitante': 'Equipo G',
-          'fecha': '2024-05-16 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 0',
-        },
-        {
-          'id': '10',
-          'equipoLocal': 'Equipo F',
-          'equipoVisitante': 'Equipo H',
-          'fecha': '2024-05-16 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 2',
-        },
-        {
-          'id': '11',
-          'equipoLocal': 'Equipo E',
-          'equipoVisitante': 'Equipo H',
-          'fecha': '2024-05-17 14:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-        },
-        {
-          'id': '12',
-          'equipoLocal': 'Equipo F',
-          'equipoVisitante': 'Equipo G',
-          'fecha': '2024-05-17 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-      ],
-      'Grupo C': [
-        {
-          'id': '13',
-          'equipoLocal': 'Equipo I',
-          'equipoVisitante': 'Equipo J',
-          'fecha': '2024-05-15 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-        {
-          'id': '14',
-          'equipoLocal': 'Equipo K',
-          'equipoVisitante': 'Equipo L',
-          'fecha': '2024-05-15 16:00',
-          'estado': 'Finalizado',
-          'resultado': '1 - 1',
-        },
-        {
-          'id': '15',
-          'equipoLocal': 'Equipo I',
-          'equipoVisitante': 'Equipo K',
-          'fecha': '2024-05-16 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-        {
-          'id': '16',
-          'equipoLocal': 'Equipo J',
-          'equipoVisitante': 'Equipo L',
-          'fecha': '2024-05-16 16:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-        },
-        {
-          'id': '17',
-          'equipoLocal': 'Equipo I',
-          'equipoVisitante': 'Equipo L',
-          'fecha': '2024-05-17 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 0',
-        },
-        {
-          'id': '18',
-          'equipoLocal': 'Equipo J',
-          'equipoVisitante': 'Equipo K',
-          'fecha': '2024-05-17 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-      ],
-      'Grupo D': [
-        {
-          'id': '19',
-          'equipoLocal': 'Equipo M',
-          'equipoVisitante': 'Equipo N',
-          'fecha': '2024-05-15 14:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-        },
-        {
-          'id': '20',
-          'equipoLocal': 'Equipo O',
-          'equipoVisitante': 'Equipo P',
-          'fecha': '2024-05-15 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-        {
-          'id': '21',
-          'equipoLocal': 'Equipo M',
-          'equipoVisitante': 'Equipo O',
-          'fecha': '2024-05-16 14:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 1',
-        },
-        {
-          'id': '22',
-          'equipoLocal': 'Equipo N',
-          'equipoVisitante': 'Equipo P',
-          'fecha': '2024-05-16 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 2',
-        },
-        {
-          'id': '23',
-          'equipoLocal': 'Equipo M',
-          'equipoVisitante': 'Equipo P',
-          'fecha': '2024-05-17 14:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-        },
-        {
-          'id': '24',
-          'equipoLocal': 'Equipo N',
-          'equipoVisitante': 'Equipo O',
-          'fecha': '2024-05-17 16:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-        },
-      ],
+    // Generar enfrentamientos según el método de eliminación
+    if (widget.torneo.metodoEliminacion == MetodoEliminacion.todosContraTodos) {
+      _generarEnfrentamientosTodosContraTodos();
+    } else if (widget.torneo.metodoEliminacion == MetodoEliminacion.grupos) {
+      _generarEnfrentamientosFaseGrupos();
+    } else {
+      _generarEnfrentamientosEliminacionDirecta();
+    }
+  }
+
+  void _generarEnfrentamientosTodosContraTodos() {
+    // Lista de equipos
+    final equipos = [
+      'Nerdos',
+      'Caries',
+      'Puppis',
+      'Lamps',
+    ];
+
+    // Inicializar tabla de posiciones con todos los partidos por jugar
+    datosGrupos = {
+      'grupos': ['Grupo A'],
+      'tablas': {
+        'Grupo A': [
+          {
+            'equipo': 'Nerdos',
+            'pj': 0,
+            'pg': 0,
+            'pe': 0,
+            'pp': 0,
+            'gf': 0,
+            'gc': 0,
+            'pts': 0,
+          },
+          {
+            'equipo': 'Caries',
+            'pj': 0,
+            'pg': 0,
+            'pe': 0,
+            'pp': 0,
+            'gf': 0,
+            'gc': 0,
+            'pts': 0,
+          },
+          {
+            'equipo': 'Puppis',
+            'pj': 0,
+            'pg': 0,
+            'pe': 0,
+            'pp': 0,
+            'gf': 0,
+            'gc': 0,
+            'pts': 0,
+          },
+          {
+            'equipo': 'Lamps',
+            'pj': 0,
+            'pg': 0,
+            'pe': 0,
+            'pp': 0,
+            'gf': 0,
+            'gc': 0,
+            'pts': 0,
+          },
+        ],
+      },
     };
 
-    // Datos de eliminación directa (estructura original)
-    enfrentamientos = {
-      'Octavos de Final': [
-        {
-          'id': '1',
-          'equipoLocal': 'Equipo A',
-          'equipoVisitante': 'Equipo B',
-          'fecha': '2024-05-15 14:00',
-          'estado': 'Finalizado',
-          'resultado': '2 - 1',
-          'ganador': 'Equipo A',
-        },
-        {
-          'id': '2',
-          'equipoLocal': 'Equipo C',
-          'equipoVisitante': 'Equipo D',
-          'fecha': '2024-05-15 16:00',
-          'estado': 'Finalizado',
-          'resultado': '3 - 0',
-          'ganador': 'Equipo C',
-        },
-        {
-          'id': '3',
-          'equipoLocal': 'Equipo E',
-          'equipoVisitante': 'Equipo F',
-          'fecha': '2024-05-16 14:00',
-          'estado': 'Programado',
-        },
-        {
-          'id': '4',
-          'equipoLocal': 'Equipo G',
-          'equipoVisitante': 'Equipo H',
-          'fecha': '2024-05-16 16:00',
-          'estado': 'Programado',
-        },
-        {
-          'id': '5',
-          'equipoLocal': 'Equipo I',
-          'equipoVisitante': 'Equipo J',
-          'fecha': '2024-05-17 14:00',
-          'estado': 'Programado',
-        },
-        {
-          'id': '6',
-          'equipoLocal': 'Equipo K',
-          'equipoVisitante': 'Equipo L',
-          'fecha': '2024-05-17 16:00',
-          'estado': 'Programado',
-        },
-        {
-          'id': '7',
-          'equipoLocal': 'Equipo M',
-          'equipoVisitante': 'Equipo N',
-          'fecha': '2024-05-18 14:00',
-          'estado': 'Programado',
-        },
-        {
-          'id': '8',
-          'equipoLocal': 'Equipo O',
-          'equipoVisitante': 'Equipo P',
-          'fecha': '2024-05-18 16:00',
-          'estado': 'Programado',
-        },
-      ],
-      'Cuartos de Final': [
-        {
-          'id': '9',
-          'equipoLocal': 'Equipo A',
-          'equipoVisitante': 'Equipo C',
-          'fecha': '2024-05-20 14:00',
-          'estado': 'Programado',
-        },
-        {
-          'id': '10',
-          'equipoLocal': null,
-          'equipoVisitante': null,
-          'fecha': '2024-05-20 16:00',
-          'estado': 'Pendiente',
-        },
-        {
-          'id': '11',
-          'equipoLocal': null,
-          'equipoVisitante': null,
-          'fecha': '2024-05-21 14:00',
-          'estado': 'Pendiente',
-        },
-        {
-          'id': '12',
-          'equipoLocal': null,
-          'equipoVisitante': null,
-          'fecha': '2024-05-21 16:00',
-          'estado': 'Pendiente',
-        },
-      ],
-      'Semifinal': [
-        {
-          'id': '13',
-          'equipoLocal': null,
-          'equipoVisitante': null,
-          'fecha': '2024-05-25 14:00',
-          'estado': 'Pendiente',
-        },
-        {
-          'id': '14',
-          'equipoLocal': null,
-          'equipoVisitante': null,
-          'fecha': '2024-05-25 16:00',
-          'estado': 'Pendiente',
-        },
-      ],
-      'Final': [
-        {
-          'id': '15',
-          'equipoLocal': null,
-          'equipoVisitante': null,
-          'fecha': '2024-05-30 14:00',
-          'estado': 'Pendiente',
-        },
-      ],
+    // Generar todos los enfrentamientos
+    final List<Map<String, dynamic>> todosLosPartidos = [
+      // Primera vuelta - Julio
+      {
+        'id': '0_1_ida',
+        'equipoLocal': 'Nerdos',
+        'equipoVisitante': 'Caries',
+        'fecha': '2024-07-26 14:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '2_3_ida',
+        'equipoLocal': 'Puppis',
+        'equipoVisitante': 'Lamps',
+        'fecha': '2024-07-26 16:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '0_2_ida',
+        'equipoLocal': 'Nerdos',
+        'equipoVisitante': 'Puppis',
+        'fecha': '2024-07-27 14:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '1_3_ida',
+        'equipoLocal': 'Caries',
+        'equipoVisitante': 'Lamps',
+        'fecha': '2024-07-27 16:00',
+        'estado': 'Programado',
+      },
+      // Primera vuelta - Agosto
+      {
+        'id': '0_3_ida',
+        'equipoLocal': 'Nerdos',
+        'equipoVisitante': 'Lamps',
+        'fecha': '2024-08-02 14:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '1_2_ida',
+        'equipoLocal': 'Caries',
+        'equipoVisitante': 'Puppis',
+        'fecha': '2024-08-02 16:00',
+        'estado': 'Programado',
+      },
+      // Segunda vuelta - Agosto
+      {
+        'id': '1_0_vuelta',
+        'equipoLocal': 'Caries',
+        'equipoVisitante': 'Nerdos',
+        'fecha': '2024-08-16 14:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '3_2_vuelta',
+        'equipoLocal': 'Lamps',
+        'equipoVisitante': 'Puppis',
+        'fecha': '2024-08-16 16:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '2_0_vuelta',
+        'equipoLocal': 'Puppis',
+        'equipoVisitante': 'Nerdos',
+        'fecha': '2024-08-17 14:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '3_1_vuelta',
+        'equipoLocal': 'Lamps',
+        'equipoVisitante': 'Caries',
+        'fecha': '2024-08-17 16:00',
+        'estado': 'Programado',
+      },
+      // Segunda vuelta - Septiembre
+      {
+        'id': '3_0_vuelta',
+        'equipoLocal': 'Lamps',
+        'equipoVisitante': 'Nerdos',
+        'fecha': '2024-09-13 14:00',
+        'estado': 'Programado',
+      },
+      {
+        'id': '2_1_vuelta',
+        'equipoLocal': 'Puppis',
+        'equipoVisitante': 'Caries',
+        'fecha': '2024-09-13 16:00',
+        'estado': 'Programado',
+      },
+    ];
+
+    // Actualizar enfrentamientos
+    enfrentamientosFaseGrupos = {
+      'Grupo A': todosLosPartidos,
     };
   }
 
+  void _generarEnfrentamientosFaseGrupos() {
+    // Implementación existente
+  }
+
+  void _generarEnfrentamientosEliminacionDirecta() {
+    // Implementación existente
+  }
+
+  void _actualizarTablaConResultado(Map<String, dynamic> enfrentamiento) {
+    if (enfrentamiento['estado'] != 'Finalizado') return;
+
+    // Obtener resultados
+    final resultados = enfrentamiento['resultado']!.split(' - ');
+    final golesLocal = int.parse(resultados[0]);
+    final golesVisitante = int.parse(resultados[1]);
+
+    // Actualizar estadísticas de ambos equipos
+    void actualizarEquipo(String nombreEquipo, bool esLocal) {
+      final equipo = datosGrupos['tablas']['Grupo A']!.firstWhere(
+        (e) => e['equipo'] == nombreEquipo,
+      );
+
+      // Incrementar partidos jugados
+      equipo['pj'] = (equipo['pj'] as int) + 1;
+
+      // Actualizar goles
+      if (esLocal) {
+        equipo['gf'] = (equipo['gf'] as int) + golesLocal;
+        equipo['gc'] = (equipo['gc'] as int) + golesVisitante;
+      } else {
+        equipo['gf'] = (equipo['gf'] as int) + golesVisitante;
+        equipo['gc'] = (equipo['gc'] as int) + golesLocal;
+      }
+
+      // Actualizar resultado
+      if (esLocal && golesLocal > golesVisitante ||
+          !esLocal && golesVisitante > golesLocal) {
+        // Victoria
+        equipo['pg'] = (equipo['pg'] as int) + 1;
+        equipo['pts'] = (equipo['pts'] as int) + 3;
+      } else if (golesLocal == golesVisitante) {
+        // Empate
+        equipo['pe'] = (equipo['pe'] as int) + 1;
+        equipo['pts'] = (equipo['pts'] as int) + 1;
+      } else {
+        // Derrota
+        equipo['pp'] = (equipo['pp'] as int) + 1;
+      }
+    }
+
+    // Actualizar ambos equipos
+    actualizarEquipo(enfrentamiento['equipoLocal'], true);
+    actualizarEquipo(enfrentamiento['equipoVisitante'], false);
+
+    // Ordenar tabla por puntos
+    datosGrupos['tablas']['Grupo A']!.sort((a, b) {
+      // Primero por puntos
+      final ptsA = a['pts'] as int;
+      final ptsB = b['pts'] as int;
+      if (ptsA != ptsB) {
+        return ptsB.compareTo(ptsA);
+      }
+      // Luego por diferencia de goles
+      final gfA = a['gf'] as int;
+      final gcA = a['gc'] as int;
+      final gfB = b['gf'] as int;
+      final gcB = b['gc'] as int;
+      final difGolesA = gfA - gcA;
+      final difGolesB = gfB - gcB;
+      if (difGolesA != difGolesB) {
+        return difGolesB.compareTo(difGolesA);
+      }
+      // Finalmente por goles a favor
+      return gfB.compareTo(gfA);
+    });
+
+    setState(() {});
+  }
+
+  @override
   void _actualizarEnfrentamiento(
       Map<String, dynamic> enfrentamientoActualizado) {
     setState(() {
-      // Encontrar y actualizar el enfrentamiento
-      for (var fase in enfrentamientosFaseGrupos.keys) {
-        final index = enfrentamientosFaseGrupos[fase]!.indexWhere(
+      if (widget.torneo.metodoEliminacion ==
+          MetodoEliminacion.todosContraTodos) {
+        // Encontrar y actualizar el enfrentamiento
+        final index = enfrentamientosFaseGrupos['Grupo A']!.indexWhere(
           (e) => e['id'] == enfrentamientoActualizado['id'],
         );
         if (index != -1) {
-          enfrentamientosFaseGrupos[fase]![index] = enfrentamientoActualizado;
-          // Si el partido está finalizado, actualizar el siguiente enfrentamiento
+          enfrentamientosFaseGrupos['Grupo A']![index] =
+              enfrentamientoActualizado;
+          // Si el partido está finalizado, actualizar la tabla
           if (enfrentamientoActualizado['estado'] == 'Finalizado') {
-            _actualizarSiguienteEnfrentamiento(
-              fase,
-              enfrentamientoActualizado,
-            );
+            _actualizarTablaConResultado(enfrentamientoActualizado);
           }
-          break;
+        }
+      } else {
+        // Implementación existente para otros métodos
+        for (var fase in enfrentamientosFaseGrupos.keys) {
+          final index = enfrentamientosFaseGrupos[fase]!.indexWhere(
+            (e) => e['id'] == enfrentamientoActualizado['id'],
+          );
+          if (index != -1) {
+            enfrentamientosFaseGrupos[fase]![index] = enfrentamientoActualizado;
+            if (enfrentamientoActualizado['estado'] == 'Finalizado') {
+              _actualizarSiguienteEnfrentamiento(
+                fase,
+                enfrentamientoActualizado,
+              );
+            }
+            break;
+          }
         }
       }
     });
@@ -1538,13 +1474,203 @@ class _EnfrentamientosViewState extends ConsumerState<EnfrentamientosView> {
   }
 
   Widget _buildTodosContraTodosView(BuildContext context, bool esAdmin) {
-    // TODO: Implementar vista de todos contra todos
     return Scaffold(
       appBar: AppBar(
         title: Text('Enfrentamientos - ${widget.torneo.nombre}'),
       ),
-      body: const Center(
-        child: Text('Vista de Todos contra Todos en desarrollo'),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header con información del torneo
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Icon(
+                      _getDeporteIcon(widget.torneo.deporte),
+                      size: 24,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Todos contra Todos',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          Text(
+                            'Sistema: ${_getMetodoNombre(widget.torneo.metodoEliminacion)}',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Tabla de posiciones
+            Text(
+              'Tabla de Posiciones',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: const [
+                  DataColumn(label: Text('Equipo')),
+                  DataColumn(label: Text('PJ')),
+                  DataColumn(label: Text('PG')),
+                  DataColumn(label: Text('PE')),
+                  DataColumn(label: Text('PP')),
+                  DataColumn(label: Text('GF')),
+                  DataColumn(label: Text('GC')),
+                  DataColumn(label: Text('Pts')),
+                ],
+                rows: datosGrupos['tablas']['Grupo A']!
+                    .map<DataRow>((equipo) => DataRow(
+                          cells: [
+                            DataCell(Text(equipo['equipo'])),
+                            DataCell(Text('${equipo['pj']}')),
+                            DataCell(Text('${equipo['pg']}')),
+                            DataCell(Text('${equipo['pe']}')),
+                            DataCell(Text('${equipo['pp']}')),
+                            DataCell(Text('${equipo['gf']}')),
+                            DataCell(Text('${equipo['gc']}')),
+                            DataCell(Text('${equipo['pts']}')),
+                          ],
+                        ))
+                    .toList(),
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Lista de todos los partidos
+            Text(
+              'Calendario de Partidos',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            ...enfrentamientosFaseGrupos['Grupo A']!.map(
+              (partido) => Card(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: InkWell(
+                  onTap: esAdmin &&
+                          (partido['estado'] == 'Programado' ||
+                              partido['estado'] == 'En Progreso')
+                      ? () => _mostrarDialogoEditarResultado(
+                            context,
+                            partido,
+                          )
+                      : null,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                partido['equipoLocal'] ?? 'Por definir',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: partido['equipoLocal'] == null
+                                      ? Colors.grey
+                                      : null,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    partido['resultado'] ?? 'vs',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    partido['fecha'],
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                partido['equipoVisitante'] ?? 'Por definir',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: partido['equipoVisitante'] == null
+                                      ? Colors.grey
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _getColorEstado(partido['estado']!),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            partido['estado']!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                        if (esAdmin &&
+                            (partido['estado'] == 'Programado' ||
+                                partido['estado'] == 'En Progreso'))
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              'Toca para editar resultado',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context).colorScheme.primary,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

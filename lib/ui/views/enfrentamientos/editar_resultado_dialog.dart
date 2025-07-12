@@ -70,7 +70,7 @@ class _EditarResultadoDialogState extends State<EditarResultadoDialog> {
                           FilteringTextInputFormatter.digitsOnly,
                         ],
                         decoration: const InputDecoration(
-                          labelText: 'Goles',
+                          labelText: 'Marcador',
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -108,7 +108,7 @@ class _EditarResultadoDialogState extends State<EditarResultadoDialog> {
                           FilteringTextInputFormatter.digitsOnly,
                         ],
                         decoration: const InputDecoration(
-                          labelText: 'Goles',
+                          labelText: 'Marcador',
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -168,14 +168,14 @@ class _EditarResultadoDialogState extends State<EditarResultadoDialog> {
   }
 
   String? _determinarGanador(
-    int golesLocal,
-    int golesVisitante,
+    int marcadorLocal,
+    int marcadorVisitante,
     String equipoLocal,
     String equipoVisitante,
   ) {
     if (!_partidoFinalizado) return null;
-    if (golesLocal > golesVisitante) return equipoLocal;
-    if (golesVisitante > golesLocal) return equipoVisitante;
+    if (marcadorLocal > marcadorVisitante) return equipoLocal;
+    if (marcadorVisitante > marcadorLocal) return equipoVisitante;
     return null; // Empate
   }
 }
