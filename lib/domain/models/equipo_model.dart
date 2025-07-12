@@ -15,6 +15,20 @@ DateTime _timestampToDateTime(dynamic timestamp) {
   throw Exception('Invalid timestamp format');
 }
 
+// Convertidor para Deporte
+Deporte _deporteFromJson(String value) {
+  switch (value.toUpperCase()) {
+    case 'FUTBOL':
+      return Deporte.futbol;
+    case 'BALONCESTO':
+      return Deporte.baloncesto;
+    case 'VOLEIBOL':
+      return Deporte.voleibol;
+    default:
+      throw Exception('Deporte inválido: $value');
+  }
+}
+
 @freezed
 class EquipoModel with _$EquipoModel {
   // Constructor privado para poder agregar métodos
@@ -24,7 +38,7 @@ class EquipoModel with _$EquipoModel {
     required String id,
     required String nombre,
     @JsonKey(name: 'torneo_id') required String torneoId,
-    required Deporte deporte,
+    @JsonKey(fromJson: _deporteFromJson) required Deporte deporte,
     required String capitan,
     required String facultad,
     required List<String> integrantes,

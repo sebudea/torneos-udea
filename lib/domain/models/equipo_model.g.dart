@@ -11,7 +11,7 @@ _$EquipoModelImpl _$$EquipoModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       nombre: json['nombre'] as String,
       torneoId: json['torneo_id'] as String,
-      deporte: $enumDecode(_$DeporteEnumMap, json['deporte']),
+      deporte: _deporteFromJson(json['deporte'] as String),
       capitan: json['capitan'] as String,
       facultad: json['facultad'] as String,
       integrantes: (json['integrantes'] as List<dynamic>)
@@ -33,7 +33,7 @@ Map<String, dynamic> _$$EquipoModelImplToJson(_$EquipoModelImpl instance) =>
     };
 
 const _$DeporteEnumMap = {
-  Deporte.futbol: 'futbol',
-  Deporte.baloncesto: 'baloncesto',
-  Deporte.voleibol: 'voleibol',
+  Deporte.futbol: 'FUTBOL',
+  Deporte.baloncesto: 'BALONCESTO',
+  Deporte.voleibol: 'VOLEIBOL',
 };

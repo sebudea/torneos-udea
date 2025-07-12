@@ -24,6 +24,7 @@ mixin _$EquipoModel {
   String get nombre => throw _privateConstructorUsedError;
   @JsonKey(name: 'torneo_id')
   String get torneoId => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _deporteFromJson)
   Deporte get deporte => throw _privateConstructorUsedError;
   String get capitan => throw _privateConstructorUsedError;
   String get facultad => throw _privateConstructorUsedError;
@@ -51,7 +52,7 @@ abstract class $EquipoModelCopyWith<$Res> {
       {String id,
       String nombre,
       @JsonKey(name: 'torneo_id') String torneoId,
-      Deporte deporte,
+      @JsonKey(fromJson: _deporteFromJson) Deporte deporte,
       String capitan,
       String facultad,
       List<String> integrantes,
@@ -132,7 +133,7 @@ abstract class _$$EquipoModelImplCopyWith<$Res>
       {String id,
       String nombre,
       @JsonKey(name: 'torneo_id') String torneoId,
-      Deporte deporte,
+      @JsonKey(fromJson: _deporteFromJson) Deporte deporte,
       String capitan,
       String facultad,
       List<String> integrantes,
@@ -206,7 +207,7 @@ class _$EquipoModelImpl extends _EquipoModel {
       {required this.id,
       required this.nombre,
       @JsonKey(name: 'torneo_id') required this.torneoId,
-      required this.deporte,
+      @JsonKey(fromJson: _deporteFromJson) required this.deporte,
       required this.capitan,
       required this.facultad,
       required final List<String> integrantes,
@@ -226,6 +227,7 @@ class _$EquipoModelImpl extends _EquipoModel {
   @JsonKey(name: 'torneo_id')
   final String torneoId;
   @override
+  @JsonKey(fromJson: _deporteFromJson)
   final Deporte deporte;
   @override
   final String capitan;
@@ -301,7 +303,7 @@ abstract class _EquipoModel extends EquipoModel {
       {required final String id,
       required final String nombre,
       @JsonKey(name: 'torneo_id') required final String torneoId,
-      required final Deporte deporte,
+      @JsonKey(fromJson: _deporteFromJson) required final Deporte deporte,
       required final String capitan,
       required final String facultad,
       required final List<String> integrantes,
@@ -320,6 +322,7 @@ abstract class _EquipoModel extends EquipoModel {
   @JsonKey(name: 'torneo_id')
   String get torneoId;
   @override
+  @JsonKey(fromJson: _deporteFromJson)
   Deporte get deporte;
   @override
   String get capitan;
